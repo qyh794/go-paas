@@ -5,10 +5,10 @@ import (
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/asim/go-micro/v3/util/log"
 	"github.com/qyh794/go-paas/pod/common"
+	"github.com/qyh794/go-paas/svc/domain/model"
+	"github.com/qyh794/go-paas/svc/domain/service"
+	"github.com/qyh794/go-paas/svc/proto/svc"
 	"strconv"
-	"svc/domain/model"
-	"svc/domain/service"
-	"svc/proto/svc"
 )
 
 type SvcHandler struct {

@@ -13,6 +13,10 @@ import (
 	"github.com/jinzhu/gorm"
 	opentracing2 "github.com/opentracing/opentracing-go"
 	"github.com/qyh794/go-paas/pod/common"
+	"github.com/qyh794/go-paas/svc/domain/repository"
+	"github.com/qyh794/go-paas/svc/domain/service"
+	"github.com/qyh794/go-paas/svc/handler"
+	"github.com/qyh794/go-paas/svc/proto/svc"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
@@ -20,10 +24,6 @@ import (
 	"net/http"
 	"path/filepath"
 	"strconv"
-	"svc/domain/repository"
-	"svc/domain/service"
-	"svc/handler"
-	"svc/proto/svc"
 )
 
 var (

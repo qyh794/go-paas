@@ -3,7 +3,7 @@ package repository
 import (
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/jinzhu/gorm"
-	"svc/domain/model"
+	"github.com/qyh794/go-paas/svc/domain/model"
 )
 
 type ISvcRepository interface {

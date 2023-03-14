@@ -4,14 +4,14 @@ import (
 	"context"
 	"errors"
 	"github.com/asim/go-micro/v3/logger"
+	"github.com/qyh794/go-paas/svc/domain/model"
+	"github.com/qyh794/go-paas/svc/domain/repository"
+	"github.com/qyh794/go-paas/svc/proto/svc"
 	v1 "k8s.io/api/core/v1"
 	v12 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/client-go/kubernetes"
 	"strconv"
-	"svc/domain/model"
-	"svc/domain/repository"
-	"svc/proto/svc"
 )
 
 type IServiceDataService interface {
