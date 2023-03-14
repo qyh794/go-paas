@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package svc;
+
+option go_package = "./proto/svc;svc";
+
+service Svc {
+  rpc AddSvc(RSvcInfo) returns (Response) {}
+  rpc DeleteSvcByID(RequestSvcID) returns (Response) {}
+  rpc UpdateSvc(RSvcInfo) returns (Response) {}
+  rpc QuerySvcByID(RequestSvcID) returns (RSvcInfo) {}
+  rpc QueryAll(RequestQueryAll) returns (ResponseAllSvc) {}
+}
+
+message RSvcInfo {
+  int64 id = 1;
+  string svc_namespace = 2; // 命名空间
+  string svc_name = 3; // 名称
+  string svc_type = 4; // service,指定service访问方式
+  string svc_pod_name = 5; // service绑定的pod名称
+  string svc_team_id = 6; // 所属团队
+  string svc_external_name = 7; // type类型
+  //ClusterIP 默认值，它是Kubernetes系统自动分配的虚拟IP，只能在集群内部访问
+  //NodePort：将Service通过指定的Node上的端口暴露给外部，通过此方法，就可以在集群外部访问服务
+  //LoadBalancer：使用外接负载均衡器完成到服务的负载分发，注意此模式需要外部云环境支持
+  //ExternalName  把集群外部的服务引入集群内部，直接使用
+  repeated SvcPort svc_port = 8;
+}
+
+message SvcPort {
+  int64 id = 1;
+  int64 svc_id = 2;
+  int32 svc_port = 3;
+  int32 svc_target_port = 4;
+  int32 svc_node_port = 5;
+  string svc_port_protocol = 6;
+}
+
+message RequestSvcID {
+  int64 id = 1;
+}
+
+message RequestQueryAll {
+
+}
+
+message Response {
+  string msg = 1;
+}
+
+message ResponseAllSvc {
+  repeated RSvcInfo svc_info = 1;
+}
