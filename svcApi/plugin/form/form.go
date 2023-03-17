@@ -3,10 +3,10 @@ package form
 import (
 	"errors"
 	"github.com/asim/go-micro/v3/logger"
+	"github.com/qyh794/go-paas/svcApi/proto/svcApi"
 	"reflect"
 	"strconv"
 	"strings"
-	"svcApi/proto/svcApi"
 	"time"
 )
 
@@ -15,20 +15,20 @@ func FormToSvcStruct(data map[string]*svcApi.Pair, obj interface{}) {
 	objValue := reflect.ValueOf(obj).Elem()
 	for i := 0; i < objValue.NumField(); i++ {
 		//获取sql对应的值
-		dataTag := strings.Replace(objValue.Type().Field(i).Tag.Get("json"),",omitempty","",-1)
+		dataTag := strings.Replace(objValue.Type().Field(i).Tag.Get("json"), ",omitempty", "", -1)
 		dataSlice, ok := data[dataTag]
 		if !ok {
 			continue
 		}
 		valueSlice := dataSlice.Values
-		if len(valueSlice)<=0{
+		if len(valueSlice) <= 0 {
 			continue
 		}
 		//排除port和env
-		if dataTag == "svc_port" ||dataTag=="svc_target_port"{
+		if dataTag == "svc_port" || dataTag == "svc_target_port" {
 			continue
 		}
-		value:=valueSlice[0]
+		value := valueSlice[0]
 		//端口，环境变量的单独处理
 		//获取对应字段的名称
 		name := objValue.Type().Field(i).Name
