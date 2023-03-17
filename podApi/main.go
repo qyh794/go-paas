@@ -97,4 +97,5 @@ func main() {
 	if err := service.Run(); err != nil {
 		logger.Error(err)
 	}
+
 }
