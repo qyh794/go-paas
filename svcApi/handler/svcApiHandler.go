@@ -7,14 +7,14 @@ import (
 	"github.com/asim/go-micro/v3/util/log"
 	"github.com/pkg/errors"
 	"github.com/qyh794/go-paas/svc/proto/svc"
+	"github.com/qyh794/go-paas/svcApi/plugin/form"
+	"github.com/qyh794/go-paas/svcApi/proto/svcApi"
 	"strconv"
-	"svcApi/plugin/form"
-	"svcApi/proto/svcApi"
 )
 
 const (
-	serverBusy = 500
-	succeed = 200
+	serverBusy       = 500
+	succeed          = 200
 	CodeInvalidParam = 400
 )
 
@@ -54,7 +54,7 @@ func (s *SvcApi) AddSvc(ctx context.Context, request *svcApi.Request, response *
 	svcType, ok := request.Post["svc_type"]
 	// 变量 svcType 的类型为 []string
 	// 如果请求中带有 svc_type,进行处理
-	if ok && len(svcType.Values) > 0{ //svcType.Values 是获取到 svcType 字符串数组中的所有元素
+	if ok && len(svcType.Values) > 0 { //svcType.Values 是获取到 svcType 字符串数组中的所有元素
 		svcPort := &svc.SvcPort{}
 		switch svcType.Values[0] { // 判断[]string第一个, svcType可能包含ClusterIP\NodePort\LoadBalancer\ExternalName
 		case "ClusterIP":
@@ -123,7 +123,7 @@ func (s *SvcApi) UpdateSvc(ctx context.Context, request *svcApi.Request, respons
 	svcType, ok := request.Post["svc_type"]
 	// 变量 svcType 的类型为 []string
 	// 如果请求中带有 svc_type,进行处理
-	if ok && len(svcType.Values) > 0{ //svcType.Values 是获取到 svcType 字符串数组中的所有元素
+	if ok && len(svcType.Values) > 0 { //svcType.Values 是获取到 svcType 字符串数组中的所有元素
 		svcPort := &svc.SvcPort{}
 		switch svcType.Values[0] { // 判断[]string第一个, svcType可能包含ClusterIP\NodePort\LoadBalancer\ExternalName
 		case "ClusterIP":
@@ -161,7 +161,7 @@ func (s *SvcApi) UpdateSvc(ctx context.Context, request *svcApi.Request, respons
 
 func (s *SvcApi) Call(ctx context.Context, request *svcApi.Request, response *svcApi.Response) error {
 	log.Info("查询所有service服务")
-	allSvc,err:=s.SvcService.QueryAll(ctx,&svc.RequestQueryAll{})
+	allSvc, err := s.SvcService.QueryAll(ctx, &svc.RequestQueryAll{})
 	if err != nil {
 		logger.Error(err)
 		return err
@@ -171,4 +171,3 @@ func (s *SvcApi) Call(ctx context.Context, request *svcApi.Request, response *sv
 	response.Body = string(bytes)
 	return nil
 }
-
