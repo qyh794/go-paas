@@ -13,12 +13,12 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/qyh794/go-paas/pod/common"
 	"github.com/qyh794/go-paas/svc/proto/svc"
+	"github.com/qyh794/go-paas/svcApi/handler"
+	hystrix2 "github.com/qyh794/go-paas/svcApi/plugin/hystrix"
+	"github.com/qyh794/go-paas/svcApi/proto/svcApi"
 	"net"
 	"net/http"
 	"strconv"
-	"svcApi/handler"
-	hystrix2 "svcApi/plugin/hystrix"
-	"svcApi/proto/svcApi"
 )
 
 var (
