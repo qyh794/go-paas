@@ -4,13 +4,13 @@ import (
 	"context"
 	"errors"
 	"github.com/asim/go-micro/v3/logger"
+	"github.com/qyh794/go-paas/route/domain/model"
+	"github.com/qyh794/go-paas/route/domain/repository"
+	"github.com/qyh794/go-paas/route/proto/route"
 	v1 "k8s.io/api/apps/v1"
 	v2 "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
-	"route/domain/model"
-	"route/domain/repository"
-	"route/proto/route"
 )
 
 type IRouteDataService interface {
