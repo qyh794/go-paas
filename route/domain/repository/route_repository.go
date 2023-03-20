@@ -3,7 +3,7 @@ package repository
 import (
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/jinzhu/gorm"
-	"route/domain/model"
+	"github.com/qyh794/go-paas/route/domain/model"
 )
 
 type IRouteRepository interface {
