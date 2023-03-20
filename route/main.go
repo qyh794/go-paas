@@ -2,24 +2,21 @@ package main
 
 import (
 	"flag"
-	"github.com/asim/go-micro/plugins/registry/consul/v3"
 	ratelimit "github.com/asim/go-micro/plugins/wrapper/ratelimiter/uber/v3"
 	opentracing2 "github.com/asim/go-micro/plugins/wrapper/trace/opentracing/v3"
-	"github.com/asim/go-micro/v3"
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/asim/go-micro/v3/registry"
 	"github.com/asim/go-micro/v3/server"
 	"github.com/jinzhu/gorm"
-	"github.com/opentracing/opentracing-go"
 	"github.com/qyh794/go-paas/pod/common"
+	"github.com/qyh794/go-paas/route/domain/repository"
+	service2 "github.com/qyh794/go-paas/route/domain/service"
+	"github.com/qyh794/go-paas/route/handler"
+	"github.com/qyh794/go-paas/route/proto/route"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
 	"path/filepath"
-	"route/domain/repository"
-	service2 "route/domain/service"
-	"route/handler"
-	"route/proto/route"
 	"strconv"
 )
 
@@ -32,7 +29,7 @@ var (
 	servicePort = "8087"
 
 	//注册中心配置
-	consulHost  = hostIp
+	consulHost       = hostIp
 	consulPort int64 = 8500
 	//链路追踪
 	tracerHost = hostIp
@@ -44,7 +41,6 @@ var (
 )
 
 const QPS = 1000
-
 
 func main() {
 	newRegistry := consul.NewRegistry(func(options *registry.Options) {
@@ -76,7 +72,7 @@ func main() {
 	common.PrometheusBoot(prometheusPort)
 	var kubeconfig *string
 	if dir := homedir.HomeDir(); dir != "" {
-		kubeconfig = flag.String("kubeconfig", filepath.Join(dir, ".kube", "config"),"absolute path to the kubeconfig file")
+		kubeconfig = flag.String("kubeconfig", filepath.Join(dir, ".kube", "config"), "absolute path to the kubeconfig file")
 	} else {
 		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
 
