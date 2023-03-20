@@ -1,0 +1,45 @@
+syntax = "proto3";  // 定义使用的proto版本为3
+
+package route;  // 所属的包名
+
+option go_package = "./proto/route;route"; // 定义生成的go代码包名为route,代码存放路径为 ./proto/route
+
+// 服务名Route
+service Route {
+  rpc AddRoute(RRouteInfo) returns (ResponseInfo) {}
+  rpc DeleteRoute(RRouteID) returns (ResponseInfo) {}
+  rpc UpdateRoute(RRouteInfo) returns (ResponseInfo) {}
+  rpc QueryRouteByID(RRouteID) returns (RRouteInfo) {}
+  rpc QueryAllRoute(RequestQueryAll) returns (ResponseAllRoute) {}
+}
+
+message RRouteInfo {
+  int64 id = 1;
+  string route_name = 2;
+  string route_namespace = 3;
+  string route_host = 4;
+  repeated RoutePath route_path = 5;
+}
+
+message RoutePath {
+  int64 id = 1;
+  int64 route_id = 2;
+  string route_path_name = 3;
+  string route_backend_service = 4;
+  int32 route_backend_service_port = 5;
+}
+
+message RRouteID {
+  int64 id = 1;
+}
+
+message RequestQueryAll {}
+
+message ResponseInfo {
+  string msg = 1;
+}
+
+message ResponseAllRoute {
+  repeated RRouteInfo route_info = 1;
+}
+
