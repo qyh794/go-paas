@@ -2,12 +2,15 @@ package main
 
 import (
 	"flag"
+	"github.com/asim/go-micro/plugins/registry/consul/v3"
 	ratelimit "github.com/asim/go-micro/plugins/wrapper/ratelimiter/uber/v3"
 	opentracing2 "github.com/asim/go-micro/plugins/wrapper/trace/opentracing/v3"
+	"github.com/asim/go-micro/v3"
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/asim/go-micro/v3/registry"
 	"github.com/asim/go-micro/v3/server"
 	"github.com/jinzhu/gorm"
+	"github.com/opentracing/opentracing-go"
 	"github.com/qyh794/go-paas/pod/common"
 	"github.com/qyh794/go-paas/route/domain/repository"
 	service2 "github.com/qyh794/go-paas/route/domain/service"
