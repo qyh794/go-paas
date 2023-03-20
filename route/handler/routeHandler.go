@@ -5,9 +5,9 @@ import (
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/asim/go-micro/v3/util/log"
 	"github.com/qyh794/go-paas/pod/common"
-	"route/domain/model"
-	"route/domain/service"
-	"route/proto/route"
+	"github.com/qyh794/go-paas/route/domain/model"
+	"github.com/qyh794/go-paas/route/domain/service"
+	"github.com/qyh794/go-paas/route/proto/route"
 	"strconv"
 )
 
