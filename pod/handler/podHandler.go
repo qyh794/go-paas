@@ -3,10 +3,10 @@ package handler
 import (
 	"context"
 	"github.com/asim/go-micro/v3/logger"
-	"pod/common"
-	"pod/domain/model"
-	"pod/domain/service"
-	"pod/proto/pod"
+	"github.com/qyh794/go-paas/pod/common"
+	"github.com/qyh794/go-paas/pod/domain/model"
+	"github.com/qyh794/go-paas/pod/domain/service"
+	"github.com/qyh794/go-paas/pod/proto/pod"
 	"strconv"
 )
 
