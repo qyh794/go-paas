@@ -1,6 +1,6 @@
-module github.com/qyh794/go-paas/pod
+module pod
 
-go 1.18
+go 1.19
 
 require (
 	github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5
@@ -8,15 +8,15 @@ require (
 	github.com/asim/go-micro/plugins/registry/consul/v3 v3.7.0
 	github.com/asim/go-micro/plugins/wrapper/ratelimiter/uber/v3 v3.7.0
 	github.com/asim/go-micro/plugins/wrapper/trace/opentracing/v3 v3.7.0
-	github.com/asim/go-micro/v3 v3.7.1
+	github.com/asim/go-micro/v3 v3.7.0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/prometheus/client_golang v1.14.0
 	github.com/uber/jaeger-client-go v2.30.0+incompatible
-	google.golang.org/protobuf v1.28.1
-	k8s.io/api v0.26.2
-	k8s.io/apimachinery v0.26.2
-	k8s.io/client-go v0.26.2
+	google.golang.org/protobuf v1.30.0
+	k8s.io/api v0.26.3
+	k8s.io/apimachinery v0.26.3
+	k8s.io/client-go v0.26.3
 )
 
 require (
