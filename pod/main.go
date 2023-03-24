@@ -30,7 +30,7 @@ import (
 
 var (
 	//服务地址
-	hostIp = "0.0.0.0"
+	hostIp = "192.168.147.138"
 	//服务地址
 	serviceHost = hostIp
 	//服务端口
@@ -50,7 +50,6 @@ var (
 )
 
 func main() {
-	// Delete pod directory
 	// 1.注册中心
 	consul := consul.NewRegistry(func(options *registry.Options) {
 		options.Addrs = []string{
