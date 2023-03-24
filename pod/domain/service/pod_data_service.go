@@ -4,14 +4,14 @@ import (
 	"context"
 	"errors"
 	"github.com/asim/go-micro/v3/logger"
-	"github.com/qyh794/go-paas/pod/domain/model"
-	"github.com/qyh794/go-paas/pod/domain/repository"
-	"github.com/qyh794/go-paas/pod/proto/pod"
 	v1 "k8s.io/api/apps/v1"
 	v13 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	v12 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
+	"pod/domain/model"
+	"pod/domain/repository"
+	"pod/proto/pod"
 	"strconv"
 )
 
@@ -103,11 +103,10 @@ func (p *PodDateService) CreateToK8s(info *pod.RPodInfo) error {
 
 	*/
 	// Deployments(info.PodNamespace) 通过命名空间查找deployment
-	// Get() 获取deployment的名称，并返回相应的deployment对象，如果存在则返回错误, 有错误说明对象存在,没有错误说明对象不存在
+	// Get() 获取deployment的名称，并返回相应的deployment对象，如果存在则返回错误
 	_, err := p.K8sClientSet.AppsV1().Deployments(info.PodNamespace).Get(context.TODO(), info.PodName, v12.GetOptions{})
-	// err == nil 说明不存在deployment对象
-	// 不存在就创建
-	if err == nil {
+	// err != nil 说明不存在deployment对象
+	if err != nil {
 		// 创建deployment对象
 		_, err = p.K8sClientSet.AppsV1().Deployments(info.PodNamespace).Create(context.TODO(), p.deployment, v12.CreateOptions{})
 		if err != nil {
