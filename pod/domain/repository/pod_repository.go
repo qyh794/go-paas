@@ -8,7 +8,7 @@ package repository
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/qyh794/go-paas/pod/domain/model"
+	"pod/domain/model"
 )
 
 type IPodRepository interface {
