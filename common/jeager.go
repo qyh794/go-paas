@@ -5,6 +5,7 @@ import (
 	"github.com/uber/jaeger-client-go"
 	jaegerCfg "github.com/uber/jaeger-client-go/config"
 	"io"
+	"strconv"
 	"time"
 )
 
@@ -12,7 +13,7 @@ import (
 // 失败, err:Failed connect to github.com:443; Connection refused
 // 原因: 下载地址有误
 
-func NewTracer(serviceName string, addr string) (opentracing.Tracer, io.Closer, error) {
+func NewTracer(serviceName, host string, port int) (opentracing.Tracer, io.Closer, error) {
 	// 配置并创建Jaeger Tracer
 	cfg := &jaegerCfg.Configuration{
 		// 服务名称
@@ -27,7 +28,7 @@ func NewTracer(serviceName string, addr string) (opentracing.Tracer, io.Closer, 
 		Reporter: &jaegerCfg.ReporterConfig{
 			LogSpans:            true,
 			BufferFlushInterval: 1 * time.Second,
-			LocalAgentHostPort:  addr,
+			LocalAgentHostPort:  host + ":" + strconv.Itoa(port),
 		},
 	}
 	return cfg.NewTracer()
