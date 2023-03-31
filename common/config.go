@@ -23,9 +23,9 @@ import (
 //	return conf, err
 //}
 
-func GetConsulConfig(host string, port int64, prefix string) (config.Config, error) {
+func GetConsulConfig(host string, port int, prefix string) (config.Config, error) {
 	consulSource := consul.NewSource(
-		consul.WithAddress(host+":"+strconv.FormatInt(port, 10)),
+		consul.WithAddress(host+":"+strconv.Itoa(port)),
 		consul.WithPrefix(prefix),
 		consul.StripPrefix(true),
 	)
