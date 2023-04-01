@@ -3,6 +3,7 @@ package common
 import (
 	"github.com/asim/go-micro/v3/config"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 type MysqlConfig struct {
