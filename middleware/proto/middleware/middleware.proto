@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package middleware;
+
+option go_package = "./proto/middleware;middleware";
+
+service Middleware {
+  // 新增中间件
+  rpc AddMiddleware(RMiddlewareInfo) returns (ResponseInfo) {}
+  // 通过ID删除中间件
+  rpc DeleteMiddlewareByID(RequestMiddlewareID) returns (ResponseInfo) {}
+  // 更新中间件信息
+  rpc UpdateMiddleware(RMiddlewareInfo) returns (ResponseInfo) {}
+  // 通过ID查询中间件
+  rpc QueryMiddlewareByID(RequestMiddlewareID) returns (RMiddlewareInfo) {}
+  // 查询所有中间件
+  rpc QueryAllMiddleware(RequestAll) returns (ResponseAllMiddleware) {}
+  // 通过中间件类型MiddlewareTypeID查询所有相同的中间件
+  rpc QueryAllMiddlewareByTypeID(RequestMiddleTypeID) returns (ResponseAllMiddleware) {}
+  // 通过ID查询中间件类型
+  rpc QueryMiddleTypeByID(RequestMiddleTypeID) returns (RMiddleTypeInfo) {}
+  // 创建中间件类型
+  rpc AddMiddlewareType(RMiddleTypeInfo) returns (ResponseInfo) {}
+  // 删除中间件类型
+  rpc DeleteMiddleTypeByID(RequestMiddleTypeID) returns (ResponseInfo){}
+  // 更新中间件类型
+  rpc UpdateMiddleType(RMiddleTypeInfo) returns (ResponseInfo) {}
+  // 查询所有中间件类型
+  rpc QueryAllMiddleType(RequestAll) returns (ResponseAllMiddleType) {}
+}
+
+message RMiddlewareInfo {
+  int64 id = 1;
+  int64 middle_type_id = 2;
+  int64 middle_version_id = 3;
+  int32 middle_replicas = 4;
+  string middle_name = 5;
+  string middle_namespace = 6;
+  string middle_docker_image_version = 7;
+  float middle_cpu = 8;
+  float middle_memory = 9;
+  MiddleConfig middle_config = 10;
+  repeated MiddlePort middle_port = 11;
+  repeated MiddleEnv middle_env = 12;
+  repeated MiddleStorage middle_storage = 13;
+}
+
+message MiddleConfig {
+  int64 middle_id = 1;
+  string middle_config_root_user = 2;
+  string middle_config_root_password = 3;
+  string middle_config_user = 4;
+  string middle_config_password = 5;
+  string middle_config_database = 6;
+}
+
+message MiddleEnv {
+  int64 middle_id = 1;
+  string env_key = 2;
+  string env_value = 3;
+}
+
+message MiddlePort {
+  int64 middle_id = 1;
+  int32 middle_port = 2;
+  string middle_protocol = 3;
+}
+
+message MiddleStorage {
+  int64 middle_id = 1;
+  float middle_storage_size = 2;
+  string middle_storage_name = 3;
+  string middle_storage_path = 4;
+  string middle_storage_class = 5;
+  string middle_storage_access_mode = 6;
+}
+
+message RequestMiddlewareID {
+  int64 id = 1;
+}
+
+message RequestAll {}
+
+message RequestMiddleTypeID {
+  int64 type_id = 1;
+}
+
+message RMiddleTypeInfo {
+  int64 id = 1;
+  string middle_type_name = 2;
+  repeated MiddleVersion middle_version = 3;
+}
+
+message MiddleVersion {
+  int64 middle_type_id = 1;
+  string middle_docker_image = 2;
+  string middle_docker_image_version = 3;
+}
+
+message ResponseInfo {
+  string msg = 1;
+}
+
+message ResponseAllMiddleware {
+  repeated RMiddlewareInfo middleware_info = 1;
+}
+
+message ResponseAllMiddleType {
+  repeated RMiddleTypeInfo middleware_type_info = 1;
+}
+
+
