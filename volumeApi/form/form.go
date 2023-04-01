@@ -3,11 +3,11 @@ package form
 import (
 	"errors"
 	"github.com/asim/go-micro/v3/logger"
+	"github.com/qyh794/go-paas/volumeApi/proto/volumeApi"
 	"reflect"
 	"strconv"
 	"strings"
 	"time"
-	"volumeApi/proto/volumeApi"
 )
 
 // 根据结构体中name标签映射数据到结构体中并且转换类型
