@@ -102,6 +102,8 @@ github.com/asim/go-micro/plugins/wrapper/trace/opentracing/v3 v3.7.0 h1:8tx6OkTB
 github.com/asim/go-micro/plugins/wrapper/trace/opentracing/v3 v3.7.0/go.mod h1:LzWtE7YmzqkSCyYiv3/v+/4O05XpDUzLsxcME9CUqyA=
 github.com/asim/go-micro/v3 v3.5.2-0.20210629124054-4929a7c16ecc/go.mod h1:cNGIIYQcp0qy+taNYmrBdaIHeqMWHV5ZH/FfQzfOyE8=
 github.com/asim/go-micro/v3 v3.5.2-0.20210630062103-c13bb07171bc/go.mod h1:cNGIIYQcp0qy+taNYmrBdaIHeqMWHV5ZH/FfQzfOyE8=
+github.com/asim/go-micro/v3 v3.7.0 h1:iPpKAkcftVyg8zcXWV4dTyrDkpJ5wst6g3ad7gEczqQ=
+github.com/asim/go-micro/v3 v3.7.0/go.mod h1:GP48EHjG/7dw16ZL+lflu2S2SXSPKEVE2mPc45URs1E=
 github.com/asim/go-micro/v3 v3.7.1 h1:PCdAOFjSaG5LRulccEApGypMQMg4D7AGqaSd07/uo7k=
 github.com/asim/go-micro/v3 v3.7.1/go.mod h1:GP48EHjG/7dw16ZL+lflu2S2SXSPKEVE2mPc45URs1E=
 github.com/aws/aws-sdk-go v1.37.27/go.mod h1:hcU610XS61/+aQV88ixoOzUoG7v3b31pl2zKMmprdro=
