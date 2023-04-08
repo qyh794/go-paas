@@ -19,7 +19,7 @@ import (
 func main() {
 	// 加载配置文件中的配置
 	if err := settings.Init(); err != nil {
-		return
+		logger.Error(err)
 	}
 
 	// 初始化注册中心
