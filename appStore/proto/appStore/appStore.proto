@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package appStore;
+
+option go_package = "./proto/appStore;appStore";
+
+service AppStore {
+  rpc AddApp(RAppInfo) returns (Response) {}
+  rpc DeleteAppByID(RequestID) returns (Response) {}
+  rpc UpdateApp(RAppInfo) returns (Response) {}
+  rpc QueryAppByID(RequestID) returns (RAppInfo) {}
+  rpc QueryAllApps(RequestAllApp) returns (ResponseAllApp) {}
+  rpc AddInstallNum(RequestID) returns (Response) {}
+  rpc QueryInstallNum(RequestID) returns (ResponseNum) {}
+  rpc AddViewNum(RequestID) returns (Response) {}
+  rpc QueryViewNum(RequestID) returns (ResponseNum) {}
+  rpc AddComment(RAppComment) returns (Response) {}
+//  rpc DeleteComment(RequestCommentID)  returns(Response) {}
+  rpc QueryAllCommentByID(RequestID) returns(ResponseAllAppComment) {}
+}
+
+message RAppInfo {
+  int64 id = 1;
+  int64 app_install = 2;
+  int64 app_views = 3;
+  int64 app_category_id = 4;
+  int64 app_isv_id = 5;
+  float  app_price = 6;
+  bool app_check = 7;
+  string app_sku = 8;
+  string app_title = 9;
+  string app_detail = 10;
+  repeated AppPod app_pod = 11;
+  repeated AppMiddle app_middle = 12;
+  repeated AppVolume app_volume = 13;
+}
+
+message RequestID {
+  int64 id = 1;
+}
+
+message RequestCommentID {
+  int64 id = 1;
+}
+
+message ResponseAllApp {
+  repeated RAppInfo app_info = 1;
+}
+
+message RequestAllApp {
+
+}
+
+message ResponseNum {
+  int64 num = 1;
+}
+
+message AppPod {
+  int64 app_id = 1;
+  int64 app_pod_id = 2;
+}
+
+message AppMiddle {
+  int64 app_id = 1;
+  int64 app_middle_id = 2;
+}
+
+message AppVolume {
+  int64 app_id = 1;
+  int64 app_volume_id = 2;
+}
+
+message RAppComment {
+  int64 app_id = 1;
+  int64 app_user_id = 2;
+  string app_comment_title = 3;
+  string app_comment_detail = 4;
+}
+
+message ResponseAllAppComment {
+  repeated RAppComment app_comment = 1;
+}
+
+message Response {
+  string msg = 1;
+}
