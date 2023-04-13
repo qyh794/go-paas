@@ -1,0 +1,19 @@
+name: "go.micro.api.middlewareApi"
+service_Host: "192.168.147.138"
+service_Port: "8090"
+version: "latest"
+
+consul:
+  host: "127.0.0.1"
+  port: 8500
+
+
+tracer:
+  host: "127.0.0.1"
+  port: 6831
+
+hystrix:
+  port: 9093
+
+prometheus:
+  port: 9193
