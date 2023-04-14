@@ -1,0 +1,19 @@
+name: "go.micro.api.podApi"
+service_Host: "0.0.0.0"
+service_Port: "8082"
+version: "latest"
+
+consul:
+  host: "127.0.0.1"
+  port: 8500
+
+
+tracer:
+  host: "127.0.0.1"
+  port: 6831
+
+hystrix:
+  port: 9092
+
+prometheus:
+  port: 9192
