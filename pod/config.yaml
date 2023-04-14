@@ -1,6 +1,6 @@
 name: "go.micro.service.pod"
 service_Host: "127.0.0.1"
-service_Port: "8091"
+service_Port: "8081"
 version: "latest"
 
 consul:
@@ -14,4 +14,4 @@ tracer:
   port: 6832
 
 prometheus:
-  port: 9091
+  port: 9191
