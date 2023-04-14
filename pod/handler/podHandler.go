@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 	"github.com/asim/go-micro/v3/logger"
-	"github.com/qyh794/go-paas/pod/common"
+	"github.com/qyh794/go-paas/common"
 	"github.com/qyh794/go-paas/pod/domain/model"
 	"github.com/qyh794/go-paas/pod/domain/service"
 	"github.com/qyh794/go-paas/pod/proto/pod"
@@ -17,6 +17,7 @@ type PodHandler struct {
 func (p *PodHandler) AddPod(ctx context.Context, request *pod.RPodInfo, response *pod.ResponseMsg) error {
 	podObj := &model.Pod{}
 	err := common.SwapTo(request, podObj)
+	//fmt.Println(podObj)
 	if err != nil {
 		logger.Error("类型转换失败, ", err)
 		response.Msg = err.Error()
