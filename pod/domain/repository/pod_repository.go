@@ -12,17 +12,17 @@ import (
 )
 
 type IPodRepository interface {
-	// 初始化表
+	// InitTable 初始化表
 	InitTable() error
-	// 根据ID查询
+	// QueryPodByID 根据ID查询
 	QueryPodByID(int64) (*model.Pod, error)
-	// 创建Pod
+	// CreatePod 创建Pod
 	CreatePod(*model.Pod) (int64, error)
-	// 删除Pod
+	// DeletePodById 删除Pod
 	DeletePodById(int64) error
-	// 修改Pod
+	// UpdatePod 修改Pod
 	UpdatePod(*model.Pod) error
-	// 查询所有Pod
+	// QueryAllPods 查询所有Pod
 	QueryAllPods() ([]model.Pod, error)
 }
 
@@ -41,8 +41,6 @@ func NewPodRepository(db *gorm.DB) *PodRepository {
 // InitTable 初始化表
 func (p *PodRepository) InitTable() error {
 	return p.mysqlDB.CreateTable(model.Pod{}, model.PodEnv{}, model.PodPort{}).Error
-	//TODO implement me
-	panic("implement me")
 }
 
 // QueryPodByID 根据id查询pod信息
@@ -50,15 +48,11 @@ func (p *PodRepository) QueryPodByID(id int64) (*model.Pod, error) {
 	pod := &model.Pod{}
 	// 使用preload函数进行多表关联查询
 	return pod, p.mysqlDB.Preload("PodEnv").Preload("PodPort").First(pod, id).Error
-	//TODO implement me
-	panic("implement me")
 }
 
 // CreatePod 创建一条pod数据
 func (p *PodRepository) CreatePod(pod *model.Pod) (int64, error) {
 	return pod.ID, p.mysqlDB.Create(pod).Error
-	//TODO implement me
-	panic("implement me")
 }
 
 // DeletePodById 根据ID删除pod
@@ -95,8 +89,6 @@ func (p *PodRepository) DeletePodById(id int64) error {
 	}
 	// 事务全部成功,提交
 	return tx.Commit().Error
-	//TODO implement me
-	panic("implement me")
 }
 
 // updatePod 更新pod信息
@@ -105,8 +97,6 @@ func (p *PodRepository) UpdatePod(pod *model.Pod) error {
 	// 例如db.Model(&user).Updates(User{Name: "hello", Age: 18, Active: false}),就只会更新Name和Age字段,并且会
 	// update pod set xxx = pod.xxx, xxx = pod.xxx... where id = pod.id
 	return p.mysqlDB.Model(&model.Pod{}).Update(pod).Error
-	//TODO implement me
-	panic("implement me")
 }
 
 // QueryAllPods 查询所有pod信息
@@ -116,6 +106,4 @@ func (p *PodRepository) QueryAllPods() ([]model.Pod, error) {
 	// 获取全部记录 --> db.Find(&users), var users []User
 	// select * from pod
 	return allPods, p.mysqlDB.Find(&allPods).Error
-	//TODO implement me
-	panic("implement me")
 }
