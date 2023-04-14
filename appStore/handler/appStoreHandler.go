@@ -48,19 +48,14 @@ func (a *AppStoreHandler) DeleteAppByID(ctx context.Context, requestID *appStore
 
 func (a *AppStoreHandler) UpdateApp(ctx context.Context, requestAppInfo *appStore.RAppInfo, response *appStore.Response) error {
 	log.Info("接收到 appStore.UpdateApp 请求")
-	// 先做一次查询,再将新数据和旧数据结合,最后操作数据库更新,因为允许用户更新时之填部分字段
-	appInfo, err := a.AppStoreDataService.QueryAppByID(requestAppInfo.Id)
-	if err != nil {
+	//当使用struct进行更新时，默认情况下只更新非零字段
+	appInfo := &model.AppStore{}
+	if err := common.SwapTo(requestAppInfo, appInfo); err != nil {
 		logger.Error(err)
 		response.Msg = err.Error()
 		return err
 	}
-	if err = common.SwapTo(requestAppInfo, appInfo); err != nil {
-		logger.Error(err)
-		response.Msg = err.Error()
-		return err
-	}
-	if err = a.AppStoreDataService.UpdateApp(appInfo); err != nil {
+	if err := a.AppStoreDataService.UpdateApp(appInfo); err != nil {
 		logger.Error(err)
 		response.Msg = err.Error()
 		return err
