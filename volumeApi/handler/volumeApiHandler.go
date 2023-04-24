@@ -7,7 +7,6 @@ import (
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/asim/go-micro/v3/util/log"
 	"github.com/qyh794/go-paas/volume/proto/volume"
-	"github.com/qyh794/go-paas/volumeApi/form"
 	"github.com/qyh794/go-paas/volumeApi/proto/volumeApi"
 	"strconv"
 )
@@ -46,7 +45,12 @@ func (v *VolumeApi) QueryVolumeByID(ctx context.Context, request *volumeApi.Requ
 func (v *VolumeApi) AddVolume(ctx context.Context, request *volumeApi.Request, response *volumeApi.Response) error {
 	log.Info("接收到 volumeApi.AddVolumeByID 请求")
 	volumeInfo := &volume.RVolumeInfo{}
-	form.FormToSvcStruct(request.Post, volumeInfo)
+	err := json.Unmarshal([]byte(request.Body), volumeInfo)
+	if err != nil {
+		response.StatusCode = 403
+		response.Body = err.Error()
+		return err
+	}
 	volumeID, err := v.VolumeService.AddVolume(ctx, volumeInfo)
 	if err != nil {
 		logger.Error(err)
