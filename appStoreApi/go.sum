@@ -673,6 +673,8 @@ github.com/prometheus/procfs v0.8.0/go.mod h1:z7EfXMXOkbkqb9IINtpCn86r/to3BnA0ua
 github.com/prometheus/tsdb v0.7.1/go.mod h1:qhTCs0VvXwvX/y3TZrWD7rabWM+ijKTux40TwIPHuXU=
 github.com/qyh794/go-paas/appStore v0.0.0-20230408083025-2e6b22395619 h1:hklxALHgK/6vdpLfYxZ9i4vTjWK6LKzfjU6tIvWDQwM=
 github.com/qyh794/go-paas/appStore v0.0.0-20230408083025-2e6b22395619/go.mod h1:mli3nVwuVzvQ8avh8rTLP0endEJ+zHah8vOuNEWF5f4=
+github.com/qyh794/go-paas/appStore v0.0.0-20230424051008-6ea4633d8cc9 h1:n16+PCzSdCLOYjQtoFqhS7e3N7I/88HD7n6ru+Pi0uY=
+github.com/qyh794/go-paas/appStore v0.0.0-20230424051008-6ea4633d8cc9/go.mod h1:mli3nVwuVzvQ8avh8rTLP0endEJ+zHah8vOuNEWF5f4=
 github.com/qyh794/go-paas/common v0.0.0-20230401105759-188f3f7ba59f h1:fb6bpEh1pk2SYwktPEJXzDmg2kchk1FoSv019zE2dM8=
 github.com/qyh794/go-paas/common v0.0.0-20230401105759-188f3f7ba59f/go.mod h1:Wlzmzo3zhA02VazqYStqsx26hkrWRrIu+oOWoWYdK4E=
 github.com/rainycape/memcache v0.0.0-20150622160815-1031fa0ce2f2/go.mod h1:7tZKcyumwBO6qip7RNQ5r77yrssm9bfCowcLEBcU5IA=
