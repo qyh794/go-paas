@@ -1,0 +1,25 @@
+FROM golang:alpine AS demoVolume
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+WORKDIR /go-paas/volume
+
+COPY go.mod .
+COPY go.sum .
+ENV GOPROXY https://goproxy.cn
+RUN go mod download
+
+COPY . .
+
+RUN go build -o go-paas-volume
+
+FROM scratch
+
+COPY ./conf /conf
+
+COPY --from=demoVolume /go-paas/volume/go-paas-volume /
+
+EXPOSE 8087
+
+ENTRYPOINT ["/go-paas-volume", "conf/config.yaml"]
