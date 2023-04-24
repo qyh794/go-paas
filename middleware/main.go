@@ -1,10 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"github.com/asim/go-micro/v3/logger"
-	"github.com/opentracing/opentracing-go"
 	"github.com/qyh794/go-paas/common"
+	"github.com/qyh794/go-paas/middleware/Init/consulInit"
+	"github.com/qyh794/go-paas/middleware/Init/k8s"
+	"github.com/qyh794/go-paas/middleware/Init/mysql"
+	"github.com/qyh794/go-paas/middleware/Init/serviceInit"
 	"github.com/qyh794/go-paas/middleware/domain/repository"
 	service2 "github.com/qyh794/go-paas/middleware/domain/service"
 	"github.com/qyh794/go-paas/middleware/handler"
@@ -17,57 +19,42 @@ import (
 )
 
 func main() {
-	// 加载配置文件中的配置
+	//需要本地启动，mysql，consul中间件服务
 	if err := settings.Init(); err != nil {
-		logger.Error(err)
+		return
 	}
-
-	// 初始化注册中心
-	consul := common.InitConsul(settings.Conf.ServiceHost, settings.Conf.ServicePort)
-	// 配置中心
-	consulConfig, err := common.GetConsulConfig(settings.Conf.Consul.Host, settings.Conf.Consul.Port, settings.Conf.Consul.Prefix)
+	//1.注册中心
+	consulRegistry := consulInit.Init(settings.Conf.Consul.Host, settings.Conf.Consul.Port)
+	//2.配置中心，存放经常变动的变量
+	consulConfig, err := common.GetConsulConfig(settings.Conf.Consul.Host, settings.Conf.Consul.Port, "/micro/config")
 	if err != nil {
 		logger.Error(err)
 	}
-
-	// 配置中心获取MySQL配置
-	mysqlConfig := common.GetMysqlConfigFromConsul(consulConfig, settings.Conf.Consul.Path)
-	fmt.Println("user: ", mysqlConfig.User)
-	// 初始化MySQL
-	db, err := common.InitMySQL("mysql", mysqlConfig)
-	if err != nil {
+	//3.使用配置中心连接 mysql
+	//common.GetMysqlConfigFromConsul()
+	mysqlConfig := common.GetMysqlConfigFromConsul(consulConfig, "mysql")
+	//初始化数据库
+	if err = mysql.Init("mysql", mysqlConfig); err != nil {
 		logger.Error(err)
 	}
-	defer func() {
-		_ = db.Close()
-	}()
-	db.SingularTable(true)
+	defer mysql.Close()
 
-	// 初始化链路追踪
-	tracer, io, err := common.NewTracer(settings.Conf.Name, settings.Conf.Tracer.Host, settings.Conf.Tracer.Port)
-	if err != nil {
-		logger.Error(err)
-	}
-	defer func() {
-		_ = io.Close()
-	}()
-	opentracing.SetGlobalTracer(tracer)
+	//6.创建k8s连接
+	//在集群外面连接
+	clientset := k8s.Init()
 
-	// 添加监控
-	common.PrometheusBoot(settings.Conf.Prometheus.Port)
-
-	// 初始化k8s
-	k8sClient := common.InitK8sClient()
-
-	// 初始化服务
-	service := common.InitService(settings.Conf.ServiceHost, settings.Conf.ServicePort, settings.Conf.Name, settings.Conf.Version, 1000, consul)
+	//7.创建服务
+	service := serviceInit.Init(settings.Conf.ServiceHost, settings.Conf.ServicePort, settings.Conf.Name, settings.Conf.Version, consulRegistry)
 	service.Init()
-	middlewareDataService := service2.NewMiddlewareDataService(repository.NewMiddlewareRepository(db), k8sClient)
-	middlewareTypeDataService := service2.NewMiddlewareTypeDataService(repository.NewMiddleTypeRepository(db))
-	err = middleware.RegisterMiddlewareHandler(service.Server(), &handler.MiddlewareHandler{MiddlewareDataService: middlewareDataService, MiddlewareTypeDataService: middlewareTypeDataService})
+
+	// 注册句柄，可以快速操作已开发的服务
+	middlewareDataService := service2.NewMiddlewareDataService(repository.NewMiddlewareRepository(mysql.DB), clientset)
+	middleTypeDataService := service2.NewMiddlewareTypeDataService(repository.NewMiddleTypeRepository(mysql.DB))
+	err = middleware.RegisterMiddlewareHandler(service.Server(), &handler.MiddlewareHandler{MiddlewareDataService: middlewareDataService, MiddlewareTypeDataService: middleTypeDataService})
 	if err != nil {
 		logger.Error(err)
 	}
+	// 启动服务
 	go func() {
 		if err = service.Run(); err != nil {
 			log.Fatalf("listen: %s\n", err)
