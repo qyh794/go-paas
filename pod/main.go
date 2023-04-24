@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/asim/go-micro/v3/logger"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/opentracing/opentracing-go"
 	"github.com/qyh794/go-paas/common"
+	"github.com/qyh794/go-paas/pod/domain/model"
 	"github.com/qyh794/go-paas/pod/domain/repository"
 	"github.com/qyh794/go-paas/pod/domain/service"
 	"github.com/qyh794/go-paas/pod/handler"
@@ -40,33 +40,16 @@ func main() {
 	}
 	defer mysql.Close()
 
-	// 5.添加链路追踪
-	tracer, closer, err := common.NewTracer(settings.Conf.Name, settings.Conf.Tracer.Host, settings.Conf.Tracer.Port)
-	if err != nil {
-		logger.Error(err)
-	}
-	defer func() {
-		_ = closer.Close()
-	}()
-	opentracing.SetGlobalTracer(tracer)
-
-	//// 6.添加熔断器作为客户端才使用,返回能够通过HTTP公开仪表板指标的服务器
-	//streamHandler := hystrix.NewStreamHandler()
-	//// Start()开始观察内存断路器的指标
-	//streamHandler.Start()
-
-	// 8.添加日志中心
-	//1）需要程序日志打入到日志文件中
-	//2）在程序中添加filebeat.yml 文件
-	//3) 启动filebeat，启动命令 ./filebeat -e -c filebeat.yml
-	// 9.添加监控
-	common.PrometheusBoot(settings.Conf.Prometheus.Port)
 	clientset := k8s.Init()
 	// 13.创建服务实例
 	newService := serviceInit.Init(settings.Conf.ServiceHost, settings.Conf.ServicePort, settings.Conf.Name, settings.Conf.Version, newRegistry)
 	// 14.初始化服务
 	newService.Init()
-	//err = repository.NewPodRepository(db).InitTable()
+	if err = mysql.DB.AutoMigrate(&model.Pod{}, &model.PodPort{}, &model.PodEnv{}).Error; err != nil {
+		logger.Error(err)
+	}
+
+	//err = repository.NewPodRepository(mysql.DB).InitTable()
 	//if err != nil {
 	//	logger.Fatal(err)
 	//}
