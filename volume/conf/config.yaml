@@ -1,10 +1,10 @@
 name: "go.micro.service.volume"
-service_Host: "127.0.0.1"
+service_Host: "127.0.0.1" #改成主机的地址
 service_Port: "8087"
 version: "0.1"
 
 consul:
-  host: "127.0.0.1"
+  host: "127.0.0.1" #改成主机的地址
   port: 8500
   prefix: "/micro/config"
   path: "mysql"
