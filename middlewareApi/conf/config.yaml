@@ -1,9 +1,9 @@
 name: "go.micro.api.middlewareApi"
-service_Host: "192.168.147.138"
+service_Host: "127.0.0.1" #改成主机的地址
 service_Port: "8090"
 version: "0.1"
 
 consul:
-  host: "192.168.147.138"
+  host: "127.0.0.1" #改成主机的地址
   port: 8500
 
