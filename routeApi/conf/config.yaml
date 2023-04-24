@@ -1,0 +1,8 @@
+name: "go.micro.api.routeApi"
+service_Host: "127.0.0.1"
+service_Port: "8086"
+version: "0.1"
+
+consul:
+  host: "127.0.0.1"
+  port: 8500
