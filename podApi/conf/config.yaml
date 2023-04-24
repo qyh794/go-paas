@@ -1,0 +1,8 @@
+name: "go.micro.api.podApi"
+service_Host: "0.0.0.0" #改成主机的地址
+service_Port: "8082"
+version: "latest"
+
+consul:
+  host: "127.0.0.1" #改成主机的地址
+  port: 8500
