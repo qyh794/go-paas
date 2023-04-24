@@ -7,7 +7,7 @@ import (
 	"github.com/asim/go-micro/v3/util/log"
 	"github.com/micro/micro/v3/service/logger"
 	"github.com/qyh794/go-paas/route/proto/route"
-	"github.com/qyh794/go-paas/routeApi/form"
+
 	"github.com/qyh794/go-paas/routeApi/proto/routeApi"
 	"strconv"
 )
@@ -49,24 +49,12 @@ func (r *RouteApi) QueryRouteByID(ctx context.Context, request *routeApi.Request
 func (r *RouteApi) AddRoute(ctx context.Context, request *routeApi.Request, response *routeApi.Response) error {
 	log.Info("接收到routeApi.AddRoute请求")
 	routeInfo := &route.RRouteInfo{}
-	routePathName, ok := request.Post["route_path_name"]
-	// 请求中有route_path_name
-	if ok && len(routePathName.Values) > 0 {
-		// 获取请求中的service port
-		port, err := strconv.ParseInt(request.Post["route_backend_service_port"].Values[0], 10, 32)
-		if err != nil {
-			logger.Error(err)
-			return err
-		}
-		// routePath
-		routePath := &route.RoutePath{
-			RoutePathName:           request.Post["route_path_name"].Values[0],
-			RouteBackendService:     request.Post["route_backend_service_port"].Values[0],
-			RouteBackendServicePort: int32(port),
-		}
-		routeInfo.RoutePath = append(routeInfo.RoutePath, routePath)
+	err := json.Unmarshal([]byte(request.Body), routeInfo)
+	if err != nil {
+		response.StatusCode = 403
+		response.Body = err.Error()
+		return err
 	}
-	form.FormToSvcStruct(request.Post, routeInfo)
 	routeID, err := r.RouteService.AddRoute(ctx, routeInfo)
 	if err != nil {
 		return err
@@ -102,24 +90,12 @@ func (r *RouteApi) DeleteRoute(ctx context.Context, request *routeApi.Request, r
 func (r *RouteApi) UpdateRoute(ctx context.Context, request *routeApi.Request, response *routeApi.Response) error {
 	log.Info("接收到routeApi.QueryRouteByID请求")
 	routeInfo := &route.RRouteInfo{}
-	routePathName, ok := request.Post["route_path_name"]
-	// 请求中有route_path_name
-	if ok && len(routePathName.Values) > 0 {
-		// 获取请求中的service port
-		port, err := strconv.ParseInt(request.Post["route_backend_service_port"].Values[0], 10, 32)
-		if err != nil {
-			logger.Error(err)
-			return err
-		}
-		// routePath
-		routePath := &route.RoutePath{
-			RoutePathName:           request.Post["route_path_name"].Values[0],
-			RouteBackendService:     request.Post["route_backend_service_port"].Values[0],
-			RouteBackendServicePort: int32(port),
-		}
-		routeInfo.RoutePath = append(routeInfo.RoutePath, routePath)
+	err := json.Unmarshal([]byte(request.Body), routeInfo)
+	if err != nil {
+		response.StatusCode = 403
+		response.Body = err.Error()
+		return err
 	}
-	form.FormToSvcStruct(request.Post, routeInfo)
 	routeID, err := r.RouteService.UpdateRoute(ctx, routeInfo)
 	if err != nil {
 		return err
