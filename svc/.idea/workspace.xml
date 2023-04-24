@@ -5,7 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5653c341-3deb-44a1-9c05-014545718668" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/conf/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pod/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pod/conf/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pod/init/serviceInit/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/../pod/init/serviceInit/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pod/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../pod/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pod/plugin/hystrix/hystrix.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pod/settings/setttings.go" beforeDir="false" afterPath="$PROJECT_DIR$/../pod/settings/setttings.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../podApi/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../podApi/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../podApi/Init/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/../podApi/Init/service/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../podApi/config.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../podApi/filebeat.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../podApi/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../podApi/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../podApi/plugin/hystrix/hystrix.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../podApi/settings/settings.go" beforeDir="false" afterPath="$PROJECT_DIR$/../podApi/settings/settings.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/filebeat.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../pod/dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin/hystrix/hystrix.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +63,7 @@
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "E:/bluebell_完整代码redisv8",
+    "last_opened_file_path": "E:/GoProject/src/github.com/PaaS/go-paas/svcApi",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)"
   }
