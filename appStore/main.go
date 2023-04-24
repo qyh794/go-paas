@@ -2,8 +2,9 @@ package main
 
 import (
 	"github.com/asim/go-micro/v3/logger"
-	"github.com/opentracing/opentracing-go"
-	"github.com/qyh794/go-paas/appStore/Init"
+	"github.com/qyh794/go-paas/appStore/Init/consulInit"
+	"github.com/qyh794/go-paas/appStore/Init/mysql"
+	"github.com/qyh794/go-paas/appStore/Init/serviceInit"
 	"github.com/qyh794/go-paas/appStore/domain/repository"
 	service2 "github.com/qyh794/go-paas/appStore/domain/service"
 	"github.com/qyh794/go-paas/appStore/handler"
@@ -17,30 +18,21 @@ func main() {
 		return
 	}
 
-	consul := Init.SetupConsul(settings.Conf.Consul.Host, settings.Conf.Consul.Port)
+	consul := consulInit.Init(settings.Conf.Consul.Host, settings.Conf.Consul.Port)
 	consulConfig, err := common.GetConsulConfig(settings.Conf.Consul.Host, settings.Conf.Consul.Port, settings.Conf.Consul.Prefix)
 	if err != nil {
 		logger.Error(err)
 	}
 
 	mysqlConfig := common.GetMysqlConfigFromConsul(consulConfig, settings.Conf.Consul.Path)
-	if err = Init.SetupMysql("mysql", mysqlConfig); err != nil {
+	if err = mysql.Init("mysql", mysqlConfig); err != nil {
 		logger.Error(err)
 	}
-	Init.Close()
+	defer mysql.Close()
 
-	tracer, io, err := common.NewTracer(settings.Conf.Name, settings.Conf.Tracer.Host, settings.Conf.Tracer.Port)
-	if err != nil {
-		logger.Error(err)
-	}
-	defer io.Close()
-	opentracing.SetGlobalTracer(tracer)
-
-	common.PrometheusBoot(settings.Conf.Prometheus.Port)
-
-	service := Init.SetupService(settings.Conf.ServiceHost, settings.Conf.ServicePort, settings.Conf.Name, settings.Conf.Version, consul)
+	service := serviceInit.Init(settings.Conf.ServiceHost, settings.Conf.ServicePort, settings.Conf.Name, settings.Conf.Version, consul)
 	service.Init()
-	appStoreDataService := service2.NewAppStoreDataService(repository.NewAppStoreRepository(Init.DB))
+	appStoreDataService := service2.NewAppStoreDataService(repository.NewAppStoreRepository(mysql.DB))
 	_ = appStore.RegisterAppStoreHandler(service.Server(), &handler.AppStoreHandler{AppStoreDataService: appStoreDataService})
 
 	if err = service.Run(); err != nil {
