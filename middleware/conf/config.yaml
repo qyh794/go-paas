@@ -1,0 +1,10 @@
+name: "go.micro.service.middleware"
+service_Host: "192.168.147.138"
+service_Port: "8089"
+version: "0.1"
+
+consul:
+  host: "192.168.147.138"
+  port: 8500
+  prefix: "/micro/config"
+  path: "mysql"
