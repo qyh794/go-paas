@@ -1,0 +1,27 @@
+# 1
+FROM golang:alpine AS demoMiddlewareApi
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+# 2
+WORKDIR /go-paas/middlewareApi
+
+COPY go.mod .
+COPY go.sum .
+ENV GOPROXY https://goproxy.cn
+RUN go mod download
+
+COPY . .
+# 3
+RUN go build -o go-paas-middlewareApi
+
+FROM scratch
+
+COPY ./conf /conf
+# 4 5 6
+COPY --from=demoMiddlewareApi /go-paas/middlewareApi/go-paas-middlewareApi /
+# 7
+EXPOSE 8090
+# 8
+ENTRYPOINT ["/go-paas-middlewareApi", "conf/config.yaml"]
