@@ -1,0 +1,28 @@
+# 1
+FROM golang:alpine AS demoPod
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+# 2
+WORKDIR /go-paas/pod
+
+COPY go.mod .
+COPY go.sum .
+ENV GOPROXY https://goproxy.cn
+RUN go mod download
+
+COPY . .
+#COPY /root/.kube/config /root/.kube/config
+# 3
+RUN go build -o go-paas-pod .
+
+FROM scratch
+
+COPY ./conf /conf
+# 4 5 6
+COPY --from=demoPod /go-paas/pod/go-paas-pod /
+# 7
+EXPOSE 8081
+# 8
+ENTRYPOINT ["/go-paas-pod", "conf/config.yaml"]

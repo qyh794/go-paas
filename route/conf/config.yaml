@@ -1,0 +1,11 @@
+name: "go.micro.service.route"
+service_Host: "127.0.0.1"
+service_Port: "8085"
+version: "0.1"
+
+consul:
+  host: "127.0.0.1"
+  port: 8500
+  prefix: "/micro/config"
+  path: "mysql"
+
