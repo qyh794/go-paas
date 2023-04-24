@@ -1,7 +1,6 @@
 package service
 
 import (
-	"appStoreApi/hystrix"
 	ratelimit "github.com/asim/go-micro/plugins/wrapper/ratelimiter/uber/v3"
 	"github.com/asim/go-micro/v3"
 	"github.com/asim/go-micro/v3/registry"
@@ -19,7 +18,6 @@ func Init(serverHost, serverPort, serverName, serverVersion string, consul regis
 		micro.Version(serverVersion),
 		micro.Address(":"+serverPort),
 		micro.Registry(consul),
-		micro.WrapClient(hystrix.NewClientHystrixWrapper()),
 		micro.WrapHandler(ratelimit.NewHandlerWrapper(QPS)),
 	)
 	newService.Init()
