@@ -7,7 +7,6 @@ import (
 	"github.com/asim/go-micro/v3/util/log"
 	"github.com/pkg/errors"
 	"github.com/qyh794/go-paas/svc/proto/svc"
-	"github.com/qyh794/go-paas/svcApi/plugin/form"
 	"github.com/qyh794/go-paas/svcApi/proto/svcApi"
 	"strconv"
 )
@@ -50,35 +49,14 @@ func (s *SvcApi) QuerySvcByID(ctx context.Context, request *svcApi.Request, resp
 func (s *SvcApi) AddSvc(ctx context.Context, request *svcApi.Request, response *svcApi.Response) error {
 	log.Info("添加svc服务")
 	addSvcInfo := &svc.RSvcInfo{}
-	// 从post请求中获取到所有的svc_type
-	svcType, ok := request.Post["svc_type"]
-	// 变量 svcType 的类型为 []string
-	// 如果请求中带有 svc_type,进行处理
-	if ok && len(svcType.Values) > 0 { //svcType.Values 是获取到 svcType 字符串数组中的所有元素
-		svcPort := &svc.SvcPort{}
-		switch svcType.Values[0] { // 判断[]string第一个, svcType可能包含ClusterIP\NodePort\LoadBalancer\ExternalName
-		case "ClusterIP":
-			// 获取message SvcPort {}中svc_port的第一个值
-			port, err := strconv.ParseInt(request.Post["svc_port"].Values[0], 10, 32)
-			if err != nil {
-				logger.Error(err)
-				return err
-			}
-			svcPort.SvcPort = int32(port)
-			targetPort, err := strconv.ParseInt(request.Post["svc_target_port"].Values[0], 10, 32)
-			if err != nil {
-				logger.Error(err)
-				return err
-			}
-			svcPort.SvcTargetPort = int32(targetPort)
-			svcPort.SvcPortProtocol = request.Post["svc_port_protocol"].Values[0]
-			addSvcInfo.SvcPort = append(addSvcInfo.SvcPort, svcPort)
-		default:
-			return errors.New("类型不支持")
-		}
-	}
+
 	// 将请求中数据转换到结构体中
-	form.FormToSvcStruct(request.Post, addSvcInfo)
+	err := json.Unmarshal([]byte(request.Body), addSvcInfo)
+	if err != nil {
+		response.StatusCode = CodeInvalidParam
+		response.Body = err.Error()
+		return err
+	}
 	res, err := s.SvcService.AddSvc(ctx, addSvcInfo)
 	if err != nil {
 		logger.Error(err)
@@ -119,35 +97,14 @@ func (s *SvcApi) UpdateSvc(ctx context.Context, request *svcApi.Request, respons
 	log.Info("更新service服务")
 	//处理port
 	updateSvcInfo := &svc.RSvcInfo{}
-	// 从post请求中获取到所有的svc_type
-	svcType, ok := request.Post["svc_type"]
-	// 变量 svcType 的类型为 []string
-	// 如果请求中带有 svc_type,进行处理
-	if ok && len(svcType.Values) > 0 { //svcType.Values 是获取到 svcType 字符串数组中的所有元素
-		svcPort := &svc.SvcPort{}
-		switch svcType.Values[0] { // 判断[]string第一个, svcType可能包含ClusterIP\NodePort\LoadBalancer\ExternalName
-		case "ClusterIP":
-			// 获取message SvcPort {}中svc_port的第一个值
-			port, err := strconv.ParseInt(request.Post["svc_port"].Values[0], 10, 32)
-			if err != nil {
-				logger.Error(err)
-				return err
-			}
-			svcPort.SvcPort = int32(port)
-			targetPort, err := strconv.ParseInt(request.Post["svc_target_port"].Values[0], 10, 32)
-			if err != nil {
-				logger.Error(err)
-				return err
-			}
-			svcPort.SvcTargetPort = int32(targetPort)
-			svcPort.SvcPortProtocol = request.Post["svc_port_protocol"].Values[0]
-			updateSvcInfo.SvcPort = append(updateSvcInfo.SvcPort, svcPort)
-		default:
-			return errors.New("类型不支持")
-		}
+	// 从请求体中获取数据
+	err := json.Unmarshal([]byte(request.Body), updateSvcInfo)
+	if err != nil {
+		response.StatusCode = 403
+		response.Body = err.Error()
+		return err
 	}
-	// 将请求中数据转换到结构体中
-	form.FormToSvcStruct(request.Post, updateSvcInfo)
+
 	res, err := s.SvcService.UpdateSvc(ctx, updateSvcInfo)
 	if err != nil {
 		logger.Error(err)
