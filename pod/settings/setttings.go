@@ -14,8 +14,6 @@ type ServiceConfig struct {
 	ServicePort string `mapstructure:"service_Port"`
 	Version     string `mapstructure:"version"`
 	*Consul     `mapstructure:"consul"`
-	*Tracer     `mapstructure:"tracer"`
-	*Prometheus `mapstructure:"prometheus"`
 }
 
 type Consul struct {
@@ -25,20 +23,9 @@ type Consul struct {
 	Port   int    `mapstructure:"port"`
 }
 
-type Tracer struct {
-	Host string `mapstructure:"host"`
-	Port int    `mapstructure:"port"`
-}
-
-type Prometheus struct {
-	Port int `mapstructure:"port"`
-}
-
 // 从配置文件里读取配置
 func Init() (err error) {
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
+	viper.SetConfigFile("./conf/config.yaml")
 
 	err = viper.ReadInConfig() // 读取配置信息
 	if err != nil {            // 读取配置信息失败
