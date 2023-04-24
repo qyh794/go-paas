@@ -11,7 +11,7 @@ require (
 	github.com/asim/go-micro/v3 v3.7.1
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/opentracing/opentracing-go v1.2.0
-	github.com/qyh794/go-paas/appStore v0.0.0-20230408083025-2e6b22395619
+	github.com/qyh794/go-paas/appStore v0.0.0-20230424051008-6ea4633d8cc9
 	github.com/qyh794/go-paas/common v0.0.0-20230401105759-188f3f7ba59f
 	github.com/spf13/viper v1.15.0
 	google.golang.org/protobuf v1.30.0
