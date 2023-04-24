@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package appStoreApi;
+
+option go_package = "./proto/appStoreApi;appStoreApi";
+
+service AppStoreApi {
+  rpc AddApp(Request) returns (Response) {}
+  rpc DeleteAppByID(Request) returns (Response) {}
+  rpc UpdateApp(Request) returns (Response) {}
+  rpc QueryAppByID(Request) returns (Response) {}
+  rpc QueryAllApps(Request) returns (Response) {}
+  rpc AddInstallNum(Request) returns (Response) {}
+  rpc QueryInstallNum(Request) returns (Response) {}
+  rpc AddViewNum(Request) returns (Response) {}
+  rpc QueryViewNum(Request) returns (Response) {}
+  rpc AddComment(Request) returns (Response) {}
+  //  rpc DeleteComment(RequestCommentID)  returns(Response) {}
+  rpc QueryAllCommentByID(Request) returns(Response) {}
+}
+
+message Pair {
+  string key = 1;
+  repeated string values = 2;
+}
+
+message Request {
+  string method = 1;
+  string path = 2;
+  map<string, Pair> header = 3;
+  map<string, Pair> get = 4;
+  map<string, Pair> post = 5;
+  string body = 6;
+  string url = 7;
+}
+
+message Response {
+  int32 StatusCode = 1;
+  map<string, Pair> header = 2;
+  string body = 3;
+}
