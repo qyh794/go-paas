@@ -1,0 +1,9 @@
+name: "go.micro.api.volumeApi"
+service_Host: "127.0.0.1"
+service_Port: "8088"
+version: "0.1"
+
+consul:
+  host: "127.0.0.1"
+  port: 8500
+
