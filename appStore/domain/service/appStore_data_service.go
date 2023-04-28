@@ -1,8 +1,8 @@
 package service
 
 import (
-	"appStore/domain/model"
-	"appStore/domain/repository"
+	"github.com/qyh794/go-paas/appStore/domain/model"
+	"github.com/qyh794/go-paas/appStore/domain/repository"
 )
 
 type IAppStoreDataService interface {
@@ -43,7 +43,6 @@ type IAppStoreDataService interface {
 type AppStoreDataService struct {
 	AppStoreRepository repository.IAppStoreRepository
 }
-
 
 func NewAppStoreDataService(appStoreRepository repository.IAppStoreRepository) IAppStoreDataService {
 	return &AppStoreDataService{AppStoreRepository: appStoreRepository}
