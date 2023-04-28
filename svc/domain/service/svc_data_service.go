@@ -119,9 +119,11 @@ func (s *ScvDataService) setService(svcInfo *svc.RSvcInfo) *v1.Service {
 	}
 	service.Spec = v1.ServiceSpec{
 		Ports: s.getServicePort(svcInfo),
+		// 标签选择器，用于确定当前service代理哪些pod
 		Selector: map[string]string{
 			"app-name": svcInfo.SvcPodName,
 		},
+		// Type 四种类型ClusterIP、NodePort、LoadBalancer、ExternalName
 		Type: "ClusterIP",
 	}
 	return service
