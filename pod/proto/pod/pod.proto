@@ -1,4 +1,5 @@
 // 指定proto语法,不写默认proto2
+
 syntax = "proto3";
 
 // 声明protobuf中的包名
@@ -6,10 +7,17 @@ package pod;
 
 // 声明生成的go代码的导入路径
 option go_package = "./proto/pod;pod";
-
+// 导入google/api/annotations.proto
+//import "google/api/annotations.proto";
 // 对外暴露的服务
 service Pod {
-  rpc AddPod(RPodInfo) returns (ResponseMsg) {}
+  rpc AddPod(RPodInfo) returns (ResponseMsg) {
+    // 这里添加了google.api.http注释
+//    option (google.api.http) = {
+//      post: "/api/podApi/AddPod"
+//      body: "*"
+//    };
+  }
   rpc DeletePod(RequestPodID) returns (ResponseMsg) {}
   rpc QueryPodByID(RequestPodID) returns (RPodInfo) {}
   rpc UpdatePod(RPodInfo) returns (ResponseMsg) {}
