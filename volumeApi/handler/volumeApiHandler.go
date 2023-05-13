@@ -7,8 +7,11 @@ import (
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/asim/go-micro/v3/util/log"
 	"github.com/qyh794/go-paas/volume/proto/volume"
+	"github.com/qyh794/go-paas/volumeApi/pkg/jwt"
+
 	"github.com/qyh794/go-paas/volumeApi/proto/volumeApi"
 	"strconv"
+	"strings"
 )
 
 type VolumeApi struct {
@@ -22,6 +25,15 @@ const (
 
 func (v *VolumeApi) QueryVolumeByID(ctx context.Context, request *volumeApi.Request, response *volumeApi.Response) error {
 	log.Info("接收到 volumeApi.QueryVolumeByID 请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	if _, ok := request.Get["volume_id"]; !ok {
 		response.StatusCode = WrongArgs
 		return errors.New("参数有误")
@@ -44,8 +56,17 @@ func (v *VolumeApi) QueryVolumeByID(ctx context.Context, request *volumeApi.Requ
 
 func (v *VolumeApi) AddVolume(ctx context.Context, request *volumeApi.Request, response *volumeApi.Response) error {
 	log.Info("接收到 volumeApi.AddVolumeByID 请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	volumeInfo := &volume.RVolumeInfo{}
-	err := json.Unmarshal([]byte(request.Body), volumeInfo)
+	err = json.Unmarshal([]byte(request.Body), volumeInfo)
 	if err != nil {
 		response.StatusCode = 403
 		response.Body = err.Error()
@@ -64,6 +85,15 @@ func (v *VolumeApi) AddVolume(ctx context.Context, request *volumeApi.Request, r
 
 func (v *VolumeApi) DeleteVolumeByID(ctx context.Context, request *volumeApi.Request, response *volumeApi.Response) error {
 	log.Info("接收到 volumeApi.DeleteVolumeByID 请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	if _, ok := request.Get["volume_id"]; !ok {
 		response.StatusCode = WrongArgs
 		return errors.New("参数异常")
@@ -86,6 +116,15 @@ func (v *VolumeApi) DeleteVolumeByID(ctx context.Context, request *volumeApi.Req
 
 func (v *VolumeApi) Call(ctx context.Context, request *volumeApi.Request, response *volumeApi.Response) error {
 	log.Info("接收到 volumeApi.QueryAllVolume 请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	allVolume, err := v.VolumeService.QueryAllVolume(ctx, &volume.RequestQueryAll{})
 	if err != nil {
 		logger.Error(err)
