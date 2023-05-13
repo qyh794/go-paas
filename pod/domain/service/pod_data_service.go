@@ -102,6 +102,22 @@ func (p *PodDateService) CreateToK8s(info *pod.RPodInfo) error {
 		}
 
 	*/
+	//v2.HorizontalPodAutoscaler{
+	//	ObjectMeta: v12.ObjectMeta{
+	//		Name:      "my-hpa",
+	//		Namespace: "default",
+	//	},
+	//	Spec: v2.HorizontalPodAutoscalerSpec{
+	//		ScaleTargetRef: v1.CrossVersionObjectReference{
+	//			Kind:       "Deployment",
+	//			Name:       "my-deployment",
+	//			APIVersion: "apps/v1",
+	//		},
+	//		MinReplicas:                    int32Ptr(1),
+	//		MaxReplicas:                    10,
+	//		TargetCPUUtilizationPercentage: int32Ptr(80),
+	//	},
+	//}
 	// Deployments(info.PodNamespace) 通过命名空间查找deployment
 	// Get() 获取deployment的名称，并返回相应的deployment对象，如果存在则返回错误
 	_, err := p.K8sClientSet.AppsV1().Deployments(info.PodNamespace).Get(context.TODO(), info.PodName, v12.GetOptions{})
