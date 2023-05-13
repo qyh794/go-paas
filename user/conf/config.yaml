@@ -2,6 +2,11 @@ name: "go.micro.service.user"
 service_Host: "192.168.147.138"
 service_Port: "8093"
 version: "0.1"
+start_time: "2022-12-19"
+machine_id: 2
+
+auth:
+  jwt_expire: 8760
 
 consul:
   host: "192.168.147.138"
