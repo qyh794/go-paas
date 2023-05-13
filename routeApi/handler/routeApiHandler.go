@@ -7,9 +7,10 @@ import (
 	"github.com/asim/go-micro/v3/util/log"
 	"github.com/micro/micro/v3/service/logger"
 	"github.com/qyh794/go-paas/route/proto/route"
-
+	"github.com/qyh794/go-paas/routeApi/pkg/jwt"
 	"github.com/qyh794/go-paas/routeApi/proto/routeApi"
 	"strconv"
+	"strings"
 )
 
 type RouteApi struct {
@@ -24,6 +25,15 @@ const (
 
 func (r *RouteApi) QueryRouteByID(ctx context.Context, request *routeApi.Request, response *routeApi.Response) error {
 	log.Info("接收到routeApi.QueryRouteByID请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	// @TODO request.Get["route_id"]能否获取到参数
 	if _, ok := request.Get["route_id"]; !ok {
 		response.StatusCode = WrongArgs
@@ -48,8 +58,17 @@ func (r *RouteApi) QueryRouteByID(ctx context.Context, request *routeApi.Request
 
 func (r *RouteApi) AddRoute(ctx context.Context, request *routeApi.Request, response *routeApi.Response) error {
 	log.Info("接收到routeApi.AddRoute请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	routeInfo := &route.RRouteInfo{}
-	err := json.Unmarshal([]byte(request.Body), routeInfo)
+	err = json.Unmarshal([]byte(request.Body), routeInfo)
 	if err != nil {
 		response.StatusCode = 403
 		response.Body = err.Error()
@@ -67,6 +86,15 @@ func (r *RouteApi) AddRoute(ctx context.Context, request *routeApi.Request, resp
 
 func (r *RouteApi) DeleteRoute(ctx context.Context, request *routeApi.Request, response *routeApi.Response) error {
 	log.Info("接收到routeApi.QueryRouteByID请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	if _, ok := request.Get["route_id"]; !ok {
 		response.StatusCode = WrongArgs
 		return errors.New("参数异常")
@@ -89,8 +117,17 @@ func (r *RouteApi) DeleteRoute(ctx context.Context, request *routeApi.Request, r
 
 func (r *RouteApi) UpdateRoute(ctx context.Context, request *routeApi.Request, response *routeApi.Response) error {
 	log.Info("接收到routeApi.QueryRouteByID请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	routeInfo := &route.RRouteInfo{}
-	err := json.Unmarshal([]byte(request.Body), routeInfo)
+	err = json.Unmarshal([]byte(request.Body), routeInfo)
 	if err != nil {
 		response.StatusCode = 403
 		response.Body = err.Error()
@@ -108,6 +145,15 @@ func (r *RouteApi) UpdateRoute(ctx context.Context, request *routeApi.Request, r
 
 func (r *RouteApi) Call(ctx context.Context, request *routeApi.Request, response *routeApi.Response) error {
 	log.Info("接收到routeApi.QueryRouteByID请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	allRoute, err := r.RouteService.QueryAllRoute(ctx, &route.RequestQueryAll{})
 	if err != nil {
 		logger.Error(err)
