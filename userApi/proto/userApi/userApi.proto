@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package userApi;
+
+option go_package = "./proto/userApi;userApi";
+
+service UserApi {
+  rpc SignUp(Request) returns (Response) {}
+  rpc Login(Request) returns (Response) {}
+}
+
+message Pair {
+  string key = 1;
+  repeated string values = 2;
+}
+
+message Request {
+  string method = 1;
+  string path = 2;
+  map<string, Pair> header = 3;
+  map<string, Pair> get = 4;
+  map<string, Pair> post = 5;
+  string body = 6;
+  string url = 7;
+}
+
+message Response {
+  int32 statsCode = 1;
+  map<string, Pair> header = 2;
+  string body = 3;
+}
+
