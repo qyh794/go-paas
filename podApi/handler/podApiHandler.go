@@ -65,10 +65,19 @@ func (p *PodApi) QueryPodByID(ctx context.Context, request *podApi.Request, resp
 // podApi/AddPod 请求会调用go.micro.api.podApi 服务的podApi.AddPod 方法
 func (p *PodApi) AddPod(ctx context.Context, request *podApi.Request, response *podApi.Response) error {
 	fmt.Println("接受到 podApi.AddPod请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	// 请求中带有多个端口号,需要获取然后再添加到podInfo中
 	podInfoObj := &pod.RPodInfo{}
 	// 从请求体中获取参数,将其反序列化到结构体中
-	err := json.Unmarshal([]byte(request.Body), podInfoObj)
+	err = json.Unmarshal([]byte(request.Body), podInfoObj)
 	if err != nil {
 		response.StatusCode = 403
 		response.Body = err.Error()
@@ -89,6 +98,15 @@ func (p *PodApi) AddPod(ctx context.Context, request *podApi.Request, response *
 // DeletePodByID podApi.DeletePodById 通过API向外暴露为/podApi/deletePodById，接收http请求
 func (p *PodApi) DeletePodByID(ctx context.Context, request *podApi.Request, response *podApi.Response) error {
 	fmt.Println("接收到podApi.DeletePodByID的请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	// 从请求url中获取podID
 	val, ok := request.Get["pod_id"]
 	if !ok {
@@ -119,9 +137,18 @@ func (p *PodApi) DeletePodByID(ctx context.Context, request *podApi.Request, res
 // UpdatePod podApi.UpdatePod 通过API向外暴露为/podApi/updatePod，接收http请求
 func (p *PodApi) UpdatePod(ctx context.Context, request *podApi.Request, response *podApi.Response) error {
 	fmt.Println("接收到podApi.UpdatePod请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	podObj := &pod.RPodInfo{}
 	// 处理请求中port信息
-	err := json.Unmarshal([]byte(request.Body), podObj)
+	err = json.Unmarshal([]byte(request.Body), podObj)
 	if err != nil {
 		response.StatusCode = 403
 		response.Body = err.Error()
@@ -142,6 +169,15 @@ func (p *PodApi) UpdatePod(ctx context.Context, request *podApi.Request, respons
 // Call 默认的方法podApi.Call 通过API向外暴露为/podApi/call，接收http请求
 func (p *PodApi) Call(ctx context.Context, request *podApi.Request, response *podApi.Response) error {
 	fmt.Println("接收到podApi.QueryAll 请求")
+	token := request.Header["Authorization"].GetValues()[0]
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
 	pods, err := p.PodService.QueryAllPods(ctx, &pod.RequestQueryAll{})
 	if err != nil {
 		logger.Error(err)
