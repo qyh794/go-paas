@@ -123,8 +123,8 @@ func (r *RouteDataService) setIngress(info *route.RRouteInfo) *v2.Ingress {
 }
 
 func (r *RouteDataService) getIngressPath(info *route.RRouteInfo) []v2.IngressRule {
-	var path []v2.IngressRule
-	pathRule := v2.IngressRule{Host: info.RouteHost}
+	var rules []v2.IngressRule
+	rule := v2.IngressRule{Host: info.RouteHost}
 	var ingressPath []v2.HTTPIngressPath
 	for i := range info.RoutePath {
 		pathType := v2.PathTypePrefix
@@ -141,7 +141,7 @@ func (r *RouteDataService) getIngressPath(info *route.RRouteInfo) []v2.IngressRu
 			},
 		})
 	}
-	pathRule.IngressRuleValue = v2.IngressRuleValue{HTTP: &v2.HTTPIngressRuleValue{Paths: ingressPath}}
-	path = append(path, pathRule)
-	return path
+	rule.IngressRuleValue = v2.IngressRuleValue{HTTP: &v2.HTTPIngressRuleValue{Paths: ingressPath}}
+	rules = append(rules, rule)
+	return rules
 }

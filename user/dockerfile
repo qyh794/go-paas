@@ -1,0 +1,27 @@
+FROM golang:alpine AS demoAppStore
+
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+
+WORKDIR /go-paas/user
+
+COPY go.mod .
+COPY go.sum .
+ENV GOPROXY https://goproxy.cn
+RUN go mod download
+
+COPY . .
+
+RUN go build -o go-paas-user
+
+FROM scratch
+
+COPY ./conf /conf
+
+COPY --from=demoAppStore /go-paas/user/go-paas-user /
+
+EXPOSE 8093
+
+ENTRYPOINT ["/go-paas-user", "conf/config.yaml"]
