@@ -13,6 +13,8 @@ type ServiceConfig struct {
 	ServiceHost string `mapstructure:"service_Host"`
 	ServicePort string `mapstructure:"service_Port"`
 	Version     string `mapstructure:"version"`
+	StartTime   string `mapstructure:"start_time"`
+	MachineID   int64  `mapstructure:"machine_id"`
 	*Consul     `mapstructure:"consul"`
 }
 
