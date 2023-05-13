@@ -1,4 +1,4 @@
-FROM golang:alpine AS demoAppStore
+FROM golang:alpine AS demoUser
 
 ENV GO111MODULE=on \
     CGO_ENABLED=0 \
@@ -20,7 +20,7 @@ FROM scratch
 
 COPY ./conf /conf
 
-COPY --from=demoAppStore /go-paas/user/go-paas-user /
+COPY --from=demoUser /go-paas/user/go-paas-user /
 
 EXPOSE 8093
 
