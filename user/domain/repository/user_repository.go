@@ -30,6 +30,8 @@ func (u *UserRepository) InitTable() error {
 }
 
 func (u *UserRepository) CreateUser(user *model.User) error {
+	password := user.Password
+	user.Password = encryptPassword(password)
 	return u.mysqlDB.Create(user).Error
 }
 
@@ -43,7 +45,7 @@ func (u *UserRepository) Login(user *model.User) error {
 		return err
 	}
 	// 2.将查询出来的用户的密码与用户输入密码进行对比
-	if user.Password != encryptPassword(existingUser.Password) {
+	if existingUser.Password != encryptPassword(user.Password) {
 		return errors.New("wrong password")
 	}
 	return nil
