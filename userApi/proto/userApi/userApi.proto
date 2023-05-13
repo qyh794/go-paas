@@ -25,7 +25,7 @@ message Request {
 }
 
 message Response {
-  int32 statsCode = 1;
+  int32 StatusCode = 1;
   map<string, Pair> header = 2;
   string body = 3;
 }
