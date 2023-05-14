@@ -24,10 +24,9 @@ func (u *UserHandler) Login(ctx context.Context, requestLogin *user.RequestLogin
 	}
 	token, err := u.UserDataService.Login(userObj)
 	if err != nil {
-		return err
+		return ResponseError(responseLogin, err)
 	}
-	responseLogin.Msg = "用户认证为: " + token
-	return nil
+	return ResponseLogin(responseLogin, err, token)
 }
 
 func (u *UserHandler) SignUp(ctx context.Context, requestSignUp *user.RequestSignUp, responseSignUp *user.ResponseSignUp) error {
@@ -42,6 +41,5 @@ func (u *UserHandler) SignUp(ctx context.Context, requestSignUp *user.RequestSig
 	if err := u.UserDataService.SignUp(userObj); err != nil {
 		return err
 	}
-	responseSignUp.Msg = "注册成功"
-	return nil
+	return ResponseSignUp(responseSignUp)
 }
