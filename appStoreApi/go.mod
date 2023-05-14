@@ -1,4 +1,4 @@
-module appStoreApi
+module github.com/qyh794/go-paas/appStoreApi
 
 go 1.19
 
