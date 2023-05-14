@@ -3,6 +3,7 @@ package jwt
 import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
+	"strings"
 )
 
 type MyClaims struct {
@@ -12,6 +13,18 @@ type MyClaims struct {
 }
 
 var MySecret = []byte("GoMirco")
+
+func CheckToken(token string) error {
+	if token == "" {
+		return errors.New("need login")
+	}
+	token = strings.TrimPrefix(token, "Bearer ")
+	_, err := ParseToken(token)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 // ParseToken 解析JWT
 func ParseToken(tokenString string) (*MyClaims, error) {
